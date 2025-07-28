@@ -3,29 +3,47 @@
 
 #include "Core/TDPawn.h"
 
-// Sets default values
+#include "Camera/CameraComponent.h"
+#include "EnhancedInput/Public/EnhancedInputSubsystems.h"
+#include "GameFramework/SpringArmComponent.h"
+
+
 ATDPawn::ATDPawn()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Root = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Root"));
+	RootComponent = Root;
+
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	SpringArm->SetupAttachment(Root);
+
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	Camera->SetupAttachment(SpringArm);
 }
 
-// Called when the game starts or when spawned
 void ATDPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* InputSystem = PlayerController->GetLocalPlayer()->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())
+		{
+			if (InputMappingContext)
+			{
+				InputSystem->AddMappingContext(InputMappingContext, 1);
+			}
+		}
+	}
 }
 
-// Called every frame
 void ATDPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-// Called to bind functionality to input
 void ATDPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);

@@ -4,7 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+
+#include "EnhancedInput/Public/InputMappingContext.h"
+
 #include "TDPawn.generated.h"
+
+
+class UCameraComponent;
+class USpringArmComponent;
+
 
 UCLASS()
 class TOWERDEFENSE_API ATDPawn : public APawn
@@ -12,18 +20,28 @@ class TOWERDEFENSE_API ATDPawn : public APawn
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
 	ATDPawn();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
+public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<USceneComponent> Root;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<USpringArmComponent> SpringArm;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<UCameraComponent> Camera;
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Settings|Input")
+	TObjectPtr<UInputMappingContext> InputMappingContext;
 };

@@ -24,6 +24,7 @@ public:
 	AEnemy();
 
 protected:
+	virtual void PostInitializeComponents() override;
 	virtual void BeginPlay() override;
 
 public:
@@ -57,4 +58,8 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Enemy")
 	FORCEINLINE UEntityComponent* GetEntityComponent() const { return Entity.Get(); }
+
+protected:
+	UFUNCTION()
+	void OnHealthDepleted();
 };

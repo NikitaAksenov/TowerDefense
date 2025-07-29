@@ -18,6 +18,13 @@ AEnemy::AEnemy()
 	Health = CreateDefaultSubobject<UHealthComponent>("Health");
 }
 
+void AEnemy::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	GetHealthComponent()->OnHealthDepletedDelegate.AddDynamic(this, &ThisClass::OnHealthDepleted);
+}
+
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
@@ -35,3 +42,7 @@ float AEnemy::GetDamage(UEntityComponent* InDamagedEntity) const
 	return Damage;
 }
 
+void AEnemy::OnHealthDepleted()
+{
+	Destroy();
+}

@@ -30,7 +30,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 	float MaxHealth = 0.f;
 
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Settings")
+protected:
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Runtime")
 	float CurrentHealth = 0.f;
 
 public:
@@ -53,4 +54,10 @@ public:
 protected:
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	void ChangeHealth(float InDelta);
+
+	UFUNCTION(CallInEditor, Category = "Runtime")
+	void ApplySingleDamage();
+	
+	UFUNCTION(CallInEditor, Category = "Runtime")
+	void ApplyMortalDamage();
 };

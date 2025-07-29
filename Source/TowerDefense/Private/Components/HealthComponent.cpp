@@ -8,6 +8,7 @@ UHealthComponent::UHealthComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 
+	bWantsInitializeComponent = true;
 }
 
 void UHealthComponent::InitializeComponent()
@@ -38,10 +39,20 @@ void UHealthComponent::Damage(float InDamage)
 
 void UHealthComponent::ChangeHealth(float InDelta)
 {
-	CurrentHealth = FMath::Clamp(CurrentHealth + InDelta, 0.f, MaxHealth);
+	CurrentHealth = FMath::Clamp(CurrentHealth + InDelta, 0.f, GetMaxHealth());
 
 	if (IsHealthDepleted())
 	{
 		OnHealthDepletedDelegate.Broadcast();
 	}
+}
+
+void UHealthComponent::ApplySingleDamage()
+{
+	Damage(1.f);
+}
+
+void UHealthComponent::ApplyMortalDamage()
+{
+	Damage(GetMaxHealth());
 }

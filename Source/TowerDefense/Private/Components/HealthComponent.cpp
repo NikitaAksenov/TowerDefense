@@ -10,14 +10,38 @@ UHealthComponent::UHealthComponent()
 
 }
 
+void UHealthComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	CurrentHealth = MaxHealth;
+}
+
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+}
+
+void UHealthComponent::Damage(float InDamage)
+{
+	if (IsHealthDepleted()) return;
+
+	ChangeHealth(-InDamage);
+}
+
+void UHealthComponent::ChangeHealth(float InDelta)
+{
+	CurrentHealth = FMath::Clamp(CurrentHealth + InDelta, 0.f, MaxHealth);
+
+	if (IsHealthDepleted())
+	{
+		OnHealthDepletedDelegate.Broadcast();
+	}
 }

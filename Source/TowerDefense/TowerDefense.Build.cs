@@ -15,6 +15,8 @@ public class TowerDefense : ModuleRules
 			"Engine", 
 			"InputCore", 
 			"EnhancedInput",
+			
+			"GameplayTags",
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

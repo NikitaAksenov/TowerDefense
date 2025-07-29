@@ -20,6 +20,7 @@ public:
 	UHealthComponent();
 
 protected:
+	virtual void InitializeComponent() override;
 	virtual void BeginPlay() override;
 
 public:
@@ -27,19 +28,29 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
-	float MaxHealth;
+	float MaxHealth = 0.f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Settings")
-	float CurrentHealth;
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Settings")
+	float CurrentHealth = 0.f;
 
 public:
 	UPROPERTY(BlueprintAssignable, Category = "Health")
 	FOnHealthDepleted OnHealthDepletedDelegate;
 
 public:
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void Damage(float InDamage);
+
+	UFUNCTION(BlueprintPure, Category = "Health")
+	FORCEINLINE float IsHealthDepleted() const { return FMath::IsNearlyZero(CurrentHealth); }
+	
 	UFUNCTION(BlueprintPure, Category = "Health")
 	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
 
 	UFUNCTION(BlueprintPure, Category = "Health")
 	FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
+
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void ChangeHealth(float InDelta);
 };

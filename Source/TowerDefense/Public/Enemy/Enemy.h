@@ -63,6 +63,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Enemy")
 	FORCEINLINE UEntityComponent* GetEntityComponent() const { return Entity.Get(); }
 
+	void OnDamagedHeart();
+
 protected:
 	UFUNCTION()
 	void OnHealthDepleted();

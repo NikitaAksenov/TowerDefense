@@ -3,8 +3,10 @@
 
 #include "Heart/Heart.h"
 
+#include "Components/EntityComponent.h"
 #include "Components/HealthComponent.h"
 #include "Components/SphereComponent.h"
+#include "Enemy/Enemy.h"
 #include "Interfaces/DamageInstigatorInterface.h"
 
 
@@ -24,13 +26,18 @@ AHeart::AHeart()
 
 	// Actor components
 	Health = CreateDefaultSubobject<UHealthComponent>("Health");
+
+	Entity = CreateDefaultSubobject<UEntityComponent>(TEXT("Entity"));
 }
 
 void AHeart::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	EnemyCollisionSphere->OnComponentBeginOverlap.AddDynamic(this, &ThisClass::OnEnemyCollisionSphereBeginOverlap);
+	if (GetWorld()->IsGameWorld())
+	{
+		EnemyCollisionSphere->OnComponentBeginOverlap.AddDynamic(this, &ThisClass::OnEnemyCollisionSphereBeginOverlap);
+	}
 }
 
 void AHeart::BeginPlay()
@@ -52,5 +59,10 @@ void AHeart::OnEnemyCollisionSphereBeginOverlap(UPrimitiveComponent* OverlappedC
 	{
 		const float Damage = DamageInstigator->GetDamage(GetEntityComponent());
 		GetHealthComponent()->Damage(Damage);
+
+		if (AEnemy* Enemy = Cast<AEnemy>(OtherActor))
+		{
+			Enemy->OnDamagedHeart();
+		}
 	}
 }

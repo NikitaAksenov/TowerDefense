@@ -48,6 +48,11 @@ float AEnemy::GetDamage(UEntityComponent* InDamagedEntity) const
 	return Damage;
 }
 
+void AEnemy::OnDamagedHeart()
+{
+	Destroy();
+}
+
 void AEnemy::OnHealthDepleted()
 {
 	Destroy();

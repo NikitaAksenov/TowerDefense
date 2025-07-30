@@ -43,7 +43,7 @@ void USplineMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 			CurrentDistanceOnSpline = NewDistance;
 
 			const float SplineLength = Road->GetSpline()->GetSplineLength();
-			if (CurrentDistanceOnSpline > SplineLength)
+			if (CurrentDistanceOnSpline >= SplineLength)
 			{
 				StopMoving();
 			}

@@ -3,7 +3,9 @@
 
 #include "Enemy/Enemy.h"
 
+#include "Components/EntityComponent.h"
 #include "Components/HealthComponent.h"
+#include "SplineMovement/SplineMovementComponent.h"
 
 
 AEnemy::AEnemy()
@@ -16,6 +18,10 @@ AEnemy::AEnemy()
 
 	// Actor components
 	Health = CreateDefaultSubobject<UHealthComponent>("Health");
+
+	Entity = CreateDefaultSubobject<UEntityComponent>("Entity");
+
+	SplineMovement = CreateDefaultSubobject<USplineMovementComponent>("SplineMovement");
 }
 
 void AEnemy::PostInitializeComponents()

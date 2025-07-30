@@ -11,6 +11,7 @@
 
 
 class UHealthComponent;
+class USplineMovementComponent;
 
 
 UCLASS()
@@ -47,6 +48,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UEntityComponent> Entity;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+	TObjectPtr<USplineMovementComponent> SplineMovement;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
